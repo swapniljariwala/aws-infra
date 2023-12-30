@@ -1,3 +1,17 @@
+
+data "aws_ssm_parameter" "z_username" {
+  name = "Z_USERNAME"
+}
+
+data "aws_ssm_parameter" "z_password" {
+  name = "Z_PASSWORD"
+}
+
+data "aws_ssm_parameter" "z_secret" {
+  name = "Z_SECRET"
+}
+
+
 resource "aws_lambda_function" "zdownloader" {
   function_name = "${local.prefix}"
   role = aws_iam_role.z_downloader_lambda_role.arn
@@ -5,6 +19,14 @@ resource "aws_lambda_function" "zdownloader" {
   s3_bucket = aws_s3_bucket.lambda_code.bucket
   s3_key =  aws_s3_object.lambda_handler.id
   handler = "main.downlaod_handler"
+  environment {
+    variables = {
+      OUTPUT_BUCKET = aws_s3_bucket.stock_data.bucket 
+      Z_USERNAME = data.aws_ssm_parameter.z_username.value
+      Z_PASSWORD = data.aws_ssm_parameter.z_password.value
+      Z_SECRET = data.aws_ssm_parameter.z_secret.value
+    }
+  }
 }
 
 data "archive_file" "lambda" {

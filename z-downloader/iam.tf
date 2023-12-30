@@ -19,10 +19,6 @@ resource "aws_iam_role_policy_attachment" "lambda_role_allow_s3" {
     policy_arn =  "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_role_allow_screts_access" {
-    role = aws_iam_role.z_downloader_lambda_role.name 
-    policy_arn =  "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
-}
 
 resource "aws_iam_role_policy_attachment" "lambda_allow_logs" {
     role = aws_iam_role.z_downloader_lambda_role.name 
