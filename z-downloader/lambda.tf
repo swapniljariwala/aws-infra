@@ -27,6 +27,7 @@ resource "aws_lambda_function" "zdownloader" {
       Z_SECRET = data.aws_ssm_parameter.z_secret.value
     }
   }
+  timeout = 900
 }
 
 data "archive_file" "lambda" {
