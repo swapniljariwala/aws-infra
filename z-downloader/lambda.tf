@@ -18,7 +18,7 @@ resource "aws_lambda_function" "zdownloader" {
   runtime = "python3.12"
   s3_bucket = aws_s3_bucket.lambda_code.bucket
   s3_key =  aws_s3_object.lambda_handler.id
-  handler = "main.downlaod_handler"
+  handler = "main.download_handler"
   environment {
     variables = {
       OUTPUT_BUCKET = aws_s3_bucket.stock_data.bucket 
