@@ -23,3 +23,14 @@ output "z_downloader_stock_data_bucket" {
 output "z_downloader_code_bucket" {
     value = aws_s3_bucket.lambda_code.bucket
 }
+
+resource "aws_s3_bucket" "athena_results" {
+  bucket = "${local.prefix}-athena-results"
+
+  tags = {
+    Name        = "${local.prefix}-athena-results"
+
+  }
+}
+
+

@@ -19,6 +19,12 @@ resource "aws_iam_role_policy_attachment" "lambda_role_allow_s3" {
     policy_arn =  "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_role_allow_sqs" {
+    role = aws_iam_role.lambda_role.name 
+    policy_arn =  "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+}
+
+
 
 resource "aws_iam_role_policy_attachment" "lambda_allow_logs" {
     role = aws_iam_role.lambda_role.name 
