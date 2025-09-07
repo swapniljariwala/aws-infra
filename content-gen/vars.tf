@@ -1,3 +1,6 @@
+variable "project_prefix" {
+  default = "content-gen"
+}
 variable "volume_type" {
   description = "Type of EBS volume for the VM"
   type        = string
@@ -32,5 +35,5 @@ variable "ami"{
 }
 
 variable "instance_type" {
-    default = "t3a.large"
+    default = "t4g.nano"
 }
