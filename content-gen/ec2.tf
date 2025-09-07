@@ -1,5 +1,3 @@
-
-
 locals {
   vm_name = "${var.project_prefix}-vm"
 }
@@ -17,6 +15,9 @@ resource "aws_instance" "ubuntu_server" {
   root_block_device {
     volume_type = var.volume_type
     volume_size = var.volume_size
+  }
+  credit_specification {
+    cpu_credits = "unlimited"
   }
 }
 

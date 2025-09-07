@@ -72,3 +72,27 @@ resource "aws_iam_role_policy_attachment" "s3_rw_policy_attachment" {
   role       = aws_iam_role.lambda_ec2_role.name
   policy_arn = aws_iam_policy.s3_rw_policy.arn
 }
+
+resource "aws_iam_policy" "route53_rw_policy" {
+  name        = "${var.project_prefix}-route53-rw-policy"
+  description = "Policy to allow listing, adding, and deleting records in the Route 53 DNS zone"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "route53:ListResourceRecordSets",
+          "route53:ChangeResourceRecordSets"
+        ],
+        Resource = "arn:aws:route53:::hostedzone/${aws_route53_zone.contentgen.zone_id}"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "route53_rw_policy_attachment" {
+  role       = aws_iam_role.lambda_ec2_role.name
+  policy_arn = aws_iam_policy.route53_rw_policy.arn
+}

@@ -37,3 +37,7 @@ variable "ami"{
 variable "instance_type" {
     default = "t4g.nano"
 }
+
+variable "marketsetup_domain" {
+  default = "marketsetup.in"
+}

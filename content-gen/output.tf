@@ -28,3 +28,8 @@ output "iam_role_arn" {
   description = "ARN of the IAM role for Lambda/EC2"
   value       = aws_iam_role.lambda_ec2_role.arn
 }
+
+output "nameservers" {
+  description = "Name servers for the hosted zone"
+  value = aws_route53_zone.contentgen
+}
