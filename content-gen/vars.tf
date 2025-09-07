@@ -31,7 +31,7 @@ variable "vm_name" {
 }
 
 variable "ami"{
-    default = "ami-0f918f7e67a3323f0"
+    default = "ami-0b9093ea00a0fed92" #ubuntu arm64
 }
 
 variable "instance_type" {

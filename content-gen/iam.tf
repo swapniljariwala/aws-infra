@@ -1,10 +1,10 @@
 resource "aws_iam_instance_profile" "lambda_ec2_profile" {
-  name = "lambda-ec2-profile"
+  name = "${var.project_prefix}-lambda-ec2-profile"
   role = aws_iam_role.lambda_ec2_role.name
 }
 
 resource "aws_iam_role" "lambda_ec2_role" {
-  name = "lambda-ec2-role"
+  name = "${var.project_prefix}-lambda-ec2-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -20,13 +20,13 @@ resource "aws_iam_role" "lambda_ec2_role" {
 }
 
 resource "aws_iam_policy_attachment" "lambda_ec2_sqs_policy" {
-  name       = "lambda-ec2-sqs-policy-attachment"
+  name       = "${var.project_prefix}-lambda-ec2-sqs-policy-attachment"
   roles      = [aws_iam_role.lambda_ec2_role.name]
   policy_arn = aws_iam_policy.sqs_corporate_announcements_rw.arn
 }
 
 resource "aws_iam_policy" "ec2_start_stop_policy" {
-  name        = "ec2_start_stop_policy"
+  name        = "${var.project_prefix}-ec2_start_stop_policy"
   description = "Allow start/stop any EC2 instance"
   policy      = jsonencode({
     Version = "2012-10-17"
@@ -44,7 +44,31 @@ resource "aws_iam_policy" "ec2_start_stop_policy" {
 }
 
 resource "aws_iam_policy_attachment" "lambda_ec2_start_stop_policy" {
-  name       = "lambda-ec2-start-stop-policy-attachment"
+  name       = "${var.project_prefix}-lambda-ec2-start-stop-policy-attachment"
   roles      = [aws_iam_role.lambda_ec2_role.name]
   policy_arn = aws_iam_policy.ec2_start_stop_policy.arn
+}
+
+resource "aws_iam_policy" "s3_rw_policy" {
+  name        = "${var.project_prefix}-s3-rw-policy"
+  description = "Policy to allow all S3 actions for the bucket and its objects"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = "s3:*",
+        Resource = [
+          "arn:aws:s3:::${local.contentgen_bucket}",
+          "arn:aws:s3:::${local.contentgen_bucket}/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "s3_rw_policy_attachment" {
+  role       = aws_iam_role.lambda_ec2_role.name
+  policy_arn = aws_iam_policy.s3_rw_policy.arn
 }
