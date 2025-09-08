@@ -4,7 +4,7 @@
 echo "[$(date)] Cron triggered" >> /var/log/update-route53.log
 PATH=/usr/local/bin:/usr/bin:/bin
 
-INSTANCE_ID="i-0ff7bc0b2219479bb"
+INSTANCE_ID="i-04da0e062ec60597d"
 HOSTED_ZONE_ID="Z00326323L8S94T2OIJHQ"
 RECORD_NAME="content-gen.marketsetup.in"
 # Get current public IP of the instance
